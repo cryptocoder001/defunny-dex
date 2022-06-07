@@ -1,2 +1,11 @@
-dist
 node_modules
+./frontend/node_modules
+./sdk/node_modules
+.env
+coverage
+coverage.json
+typechain
+
+#Hardhat files
+cache
+artifacts
