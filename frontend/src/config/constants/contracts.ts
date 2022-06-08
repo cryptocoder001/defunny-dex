@@ -77,6 +77,10 @@ export default {
     [ChainId.TESTNET]: process.env.REACT_APP_WBNB,
     [ChainId.MAINNET]: process.env.REACT_APP_WBNB,
   },
+  busd: {
+    [ChainId.TESTNET]: process.env.REACT_APP_BUSD,
+    [ChainId.MAINNET]: process.env.REACT_APP_BUSD,
+  },
   cake: {
     [ChainId.TESTNET]: process.env.REACT_APP_CAKE,
     [ChainId.MAINNET]: process.env.REACT_APP_CAKE,
@@ -88,5 +92,9 @@ export default {
   bnbCakeLp: {
     [ChainId.TESTNET]: process.env.REACT_APP_BNBCAKELP,
     [ChainId.MAINNET]: process.env.REACT_APP_BNBCAKELP,
+  },
+  bnbBusdLp: {
+    [ChainId.TESTNET]: process.env.REACT_APP_BNBBUSDLP,
+    [ChainId.MAINNET]: process.env.REACT_APP_BNBBUSDLP,
   }
 }

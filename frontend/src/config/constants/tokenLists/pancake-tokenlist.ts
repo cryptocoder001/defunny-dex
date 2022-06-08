@@ -1,4 +1,3 @@
-import { ChainId } from '@pancakeswap/sdk';
 import ContractAddress from '../contracts';
 
 export default {
@@ -25,9 +24,17 @@ export default {
       "logoURI": "/images/fantom.jpg"
     },
     {
+      "name": "BUSD Token",
+      "symbol": "BUSD",
+      "address": `${String(ContractAddress.busd[ContractAddress.networkId])}`,
+      "chainId": Number(ContractAddress.networkId),
+      "decimals": 18,
+      "logoURI": "https://pancakeswap.finance/images/tokens/0xe9e7cea3dedca5984780bafc599bd69add087d56.png"
+    },
+    {
       "name": "PancakeSwap Token",
       "symbol": "CAKE",
-      "address": "0x0A5b255816f636b4AE7aaFB40E5A61566f85deB5",
+      "address": `${String(ContractAddress.cake[ContractAddress.networkId])}`,
       "chainId": Number(ContractAddress.networkId),
       "decimals": 18,
       "logoURI": "/images/fantom.jpg"
@@ -35,7 +42,7 @@ export default {
     {
       "name": "Syrup Token",
       "symbol": "SYRUP",
-      "address": "0x6AcF579761C9B789BcEccC9EA113e6178943A16b",
+      "address": `${String(ContractAddress.syrup[ContractAddress.networkId])}`,
       "chainId": Number(ContractAddress.networkId),
       "decimals": 18,
       "logoURI": "/images/fantom.jpg"

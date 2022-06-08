@@ -5,12 +5,16 @@
 // Runtime Environment's members available in the global scope.
 const { ethers } = require("hardhat");
 const { abi } = require("../artifacts/contracts/exchange-protocol/dexfactory.sol/PancakeswapPair.json");
-const fs = require('fs')
+const fs = require('fs');
+const path = require('path');
 const envfile = require('envfile')
 const parsedFile = envfile.parse(fs.readFileSync('./frontend/.env'));
+const parsedFileSdkConstant = envfile.parse(fs.readFileSync('./frontend/node_modules/@pancakeswap/sdk/dist/constants.d.ts'));
 
 async function main() {
   const [deployer] = await ethers.getSigners();
+
+  console.log("parsedFileSdkConstant", __dirname)
 
   // get timestamp for lottery
   const currentTime = new Date();
@@ -63,9 +67,14 @@ async function main() {
   const kalm = await Kalm.deploy();
   await kalm.deployed();
 
+  const Busd = await ethers.getContractFactory("BEP20Token");
+  const busd = await Busd.deploy();
+  await busd.deployed();
+
   console.log("cake token", cake.address);
   console.log("syrup token", syrup.address);
   console.log("kalm token", kalm.address);
+  console.log("busd token", busd.address);
 
 
   //masterchef
@@ -91,15 +100,17 @@ async function main() {
   tx = await syrup.mint(masterChef.address, ethers.utils.parseUnits("100000000000", 18));
   await tx.wait();
 
-  tx = await wETH.deposit({ value: ethers.utils.parseUnits("11", "ether") })
+  tx = await wETH.deposit({ value: ethers.utils.parseUnits("120", "ether") })
   await tx.wait();
   var balance = await wETH.balanceOf(deployer.address);
   console.log(ethers.utils.formatEther(String(balance)))
 
   //approve
-  tx = await wETH.approve(exchangeRouter.address, ethers.utils.parseUnits("10", 18));
+  tx = await wETH.approve(exchangeRouter.address, ethers.utils.parseUnits("100", 18));
   await tx.wait();
   tx = await cake.approve(exchangeRouter.address, ethers.utils.parseUnits("1000000", 18));
+  await tx.wait();
+  tx = await busd.approve(exchangeRouter.address, ethers.utils.parseUnits("1000000", 18));
   await tx.wait();
 
   //create LP token
@@ -119,6 +130,25 @@ async function main() {
 
   console.log("cake lp token", cakeLp);
 
+  //busd lp
+
+  tx = await exchangeRouter.addLiquidity(
+    wETH.address,
+    busd.address,
+    ethers.utils.parseUnits("10", 18),
+    ethers.utils.parseUnits("1000000", 18),
+    0,
+    0,
+    deployer.address,
+    "111111111111111111111"
+  );
+  await tx.wait();
+
+  var busdLp = await exchangeFactory.getPair(wETH.address, busd.address);
+
+  console.log("busd lp token", busdLp);
+
+
   // var cakeLpContract = new ethers.Contract(cakeLp, abi, provider);
 
   // const multi1 = await cake.balanceOf(cakeLp);
@@ -135,6 +165,9 @@ async function main() {
   // console.log("multi6", multi6);
 
   tx = await masterChef.add(100, cakeLp, false);
+  await tx.wait();
+  tx = await masterChef.add(100, busdLp, false);
+  await tx.wait();
 
   //cake vault
 
@@ -232,10 +265,36 @@ async function main() {
   parsedFile.REACT_APP_CHAINLINKORACLE = aggregator.address;
   parsedFile.REACT_APP_PREDICTIONS = prediction.address;
   parsedFile.REACT_APP_WBNB = wETH.address;
+  parsedFile.REACT_APP_BUSD = busd.address;
   parsedFile.REACT_APP_CAKE = cake.address;
   parsedFile.REACT_APP_SYRUP = syrup.address;
   parsedFile.REACT_APP_BNBCAKELP = cakeLp;
-  fs.writeFileSync('./frontend/.env', envfile.stringify(parsedFile));
+  parsedFile.REACT_APP_BNBBUSDLP = busdLp;
+  fs.writeFileSync('./frontend/.env', envfile.stringify(parsedFile, null, '\t'));
+
+  //change addresses in sdk
+
+  const sdkFile = fs.readFileSync("./frontend/node_modules/@pancakeswap/sdk/dist/constants.d.ts", 'utf-8');
+
+  var result = sdkFile.replace(String(parsedFileSdkConstant["export declare const FACTORY_ADDRESS"]), `"${exchangeFactory.address}";`)
+    .replace(parsedFileSdkConstant["export declare const INIT_CODE_HASH"], `"${await exchangeFactory.INIT_CODE_PAIR_HASH()}";`);
+
+  fs.writeFileSync("./frontend/node_modules/@pancakeswap/sdk/dist/constants.d.ts", result, 'utf-8');
+
+  //   console.log("data", data)
+  //   if (err) {
+  //     return console.log(err);
+  //   }
+  //   var result = data.replace(parsedFileSdkConstant["export declare const FACTORY_ADDRESS"], String(exchangeFactory.address))
+  //     .replace(parsedFileSdkConstant["export declare const INIT_CODE_HASH"], String(exchangeFactory.INIT_CODE_PAIR_HASH()))
+
+  //   console.log("result", result)
+
+  //   fs.writeFile(sdkPath, result, 'utf8', function (err) {
+  //     if (err) return console.log(err);
+  //   });
+  // });
+
 
 }
 

@@ -12,13 +12,23 @@ const priceHelperLps: FarmConfig[] = [
    * Before storing to redux, farms without a PID are filtered out.
    */
   {
-    pid: null,
+    pid: 1,
     lpSymbol: 'CAKE-BNB LP',
     lpAddresses: {
       [ChainId.MAINNET]: String(ContractAddress.bnbCakeLp[ChainId.MAINNET]),
       [ChainId.TESTNET]: String(ContractAddress.bnbCakeLp[ChainId.TESTNET]),
     },
     token: tokens.cake,
+    quoteToken: tokens.wbnb,
+  },
+  {
+    pid: 2,
+    lpSymbol: 'BUSD-BNB LP',
+    lpAddresses: {
+      [ChainId.MAINNET]: String(ContractAddress.bnbBusdLp[ChainId.MAINNET]),
+      [ChainId.TESTNET]: String(ContractAddress.bnbBusdLp[ChainId.TESTNET]),
+    },
+    token: tokens.busd,
     quoteToken: tokens.wbnb,
   },
 ]

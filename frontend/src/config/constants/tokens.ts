@@ -20,14 +20,14 @@ export const CAKE: { [chainId: number]: Token } = {
 export const BUSD: { [chainId: number]: Token } = {
   [ChainId.MAINNET]: new Token(
     ChainId.MAINNET,
-    '0x0350232a92C6bb9f76C3d18ce85874038Ebe8FE2',
+    String(ContractAddress.busd[ChainId.MAINNET]),
     18,
     'BUSD',
     'Binance USD',
   ),
   [ChainId.TESTNET]: new Token(
     ChainId.TESTNET,
-    '0x0350232a92C6bb9f76C3d18ce85874038Ebe8FE2',
+    String(ContractAddress.busd[ChainId.TESTNET]),
     18,
     'BUSD',
     'Binance USD',
@@ -82,6 +82,15 @@ const tokens = {
     },
     decimals: 18,
     projectLink: 'https://pancakeswap.finance/',
+  },
+  busd: {
+    symbol: 'BUSD',
+    address: {
+      [ChainId.MAINNET]: String(ContractAddress.busd[ChainId.MAINNET]),
+      [ChainId.TESTNET]: String(ContractAddress.busd[ChainId.TESTNET]),
+    },
+    decimals: 18,
+    projectLink: 'https://www.paxos.com/busd/',
   },
   syrup: {
     symbol: 'SYRUP',

@@ -17,6 +17,16 @@ const farms: FarmConfig[] = [
     token: tokens.cake,
     quoteToken: tokens.wbnb,
   },
+  {
+    pid: 2,
+    lpSymbol: 'BUSD-BNB LP',
+    lpAddresses: {
+      [ChainId.MAINNET]: String(ContractAddress.bnbBusdLp[ChainId.MAINNET]),
+      [ChainId.TESTNET]: String(ContractAddress.bnbBusdLp[ChainId.TESTNET]),
+    },
+    token: tokens.busd,
+    quoteToken: tokens.wbnb,
+  }
   /**
    * V3 by order of release (some may be out of PID order due to multiplier boost)
    */

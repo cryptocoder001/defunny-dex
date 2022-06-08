@@ -87,6 +87,7 @@ export default function Swap({ history }: RouteComponentProps) {
     inputError: wrapInputError,
   } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue)
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
+  console.log("showwrap", v2Trade);
   const trade = showWrap ? undefined : v2Trade
 
   const parsedAmounts = showWrap
@@ -140,7 +141,9 @@ export default function Swap({ history }: RouteComponentProps) {
   const userHasSpecifiedInputOutput = Boolean(
     currencies[Field.INPUT] && currencies[Field.OUTPUT] && parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0)),
   )
+
   const noRoute = !route
+  console.log("t11", trade)
 
   // check whether the user has approved the router on the input token
   const [approval, approveCallback] = useApproveCallbackFromTrade(trade, allowedSlippage)
