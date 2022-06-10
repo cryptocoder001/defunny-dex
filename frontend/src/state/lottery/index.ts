@@ -62,7 +62,7 @@ export const fetchUserTicketsAndLotteries = createAsyncThunk<
   const userLotteriesRes = await getUserLotteryData(account, currentLotteryId)
 
   const userParticipationInCurrentRound = userLotteriesRes.rounds?.find((round) => round.lotteryId === currentLotteryId)
-  console.log("mongmong", userLotteriesRes)
+  console.log("mongmong", currentLotteryId)
   const totalTickets = userParticipationInCurrentRound?.totalTickets || '0'
   // Get user tickets for current round
   // TODO: This can come from the getUserLotteryData function instead
@@ -82,6 +82,7 @@ export const fetchPublicLotteries = createAsyncThunk<LotteryRoundGraphEntity[], 
   'lottery/fetchPublicLotteries',
   async ({ currentLotteryId }) => {
     const lotteries = await getLotteriesData(currentLotteryId)
+    console.log("lotteriess", lotteries);
     return lotteries
   },
 )
@@ -126,6 +127,7 @@ export const LotterySlice = createSlice({
       },
     )
     builder.addCase(fetchPublicLotteries.fulfilled, (state, action: PayloadAction<LotteryRoundGraphEntity[]>) => {
+      console.log("action.payload", action.payload)
       state.lotteriesData = action.payload
     })
     builder.addCase(fetchUserLotteries.fulfilled, (state, action: PayloadAction<LotteryUserGraphEntity>) => {

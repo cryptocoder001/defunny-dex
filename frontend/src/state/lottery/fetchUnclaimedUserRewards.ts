@@ -118,7 +118,7 @@ export const fetchUserTicketsForMultipleRounds = async (
 
   // Batch all calls across all rounds
   const multicalls = [].concat(...callsWithRoundData.map((callWithRoundData) => callWithRoundData.calls))
-  console.log("calls", multicalls)
+  console.log("1calls", multicalls)
   try {
     const multicallRes = await multicallv2(lotteryV2Abi, multicalls, { requireSuccess: false })
     console.log("multicallRes", multicallRes)
@@ -151,6 +151,8 @@ const fetchUnclaimedUserRewards = async (
 ): Promise<LotteryTicketClaimData[]> => {
   const { rounds } = userLotteryData
 
+  console.log("round1", userLotteryData)
+
   // If there is no user round history - return an empty array
   if (rounds.length === 0) {
     return []
@@ -170,6 +172,8 @@ const fetchUnclaimedUserRewards = async (
   const roundsToCheck = claimableRounds.filter((round) => {
     return !round.claimed || parseInt(round.totalTickets, 10) > 100
   })
+
+  console.log("roundsToCheck", roundsToCheck)
 
   if (roundsToCheck.length > 0) {
     const rawUserTicketData = await fetchUserTicketsForMultipleRounds(roundsToCheck, account)

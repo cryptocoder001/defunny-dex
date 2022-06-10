@@ -62,6 +62,7 @@ const CheckPrizesSection = () => {
   }, [account, isTransitioning])
 
   const getBody = () => {
+    console.log("hasRewardsToClaim", unclaimedRewards)
     if (!account) {
       return (
         <Flex alignItems="center" justifyContent="center">
@@ -112,6 +113,7 @@ const CheckPrizesSection = () => {
       )
     }
     const checkNowText = () => {
+      console.log("lotteryIsNotClaimable", isFetchingRewards);
       if (lotteryIsNotClaimable) {
         return `${t('Calculating rewards')}...`
       }

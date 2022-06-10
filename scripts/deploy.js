@@ -4,7 +4,9 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 const { ethers } = require("hardhat");
-const { abi } = require("../artifacts/contracts/exchange-protocol/dexfactory.sol/PancakeswapPair.json");
+// const { abi } = require("../artifacts/contracts/exchange-protocol/dexfactory.sol/PancakeswapPair.json");
+const { abi } = require("../artifacts/contracts/lottery/lottery.sol/Lottery.json");
+
 const fs = require('fs');
 const path = require('path');
 const envfile = require('envfile')
@@ -14,16 +16,16 @@ const parsedFileSdkConstant = envfile.parse(fs.readFileSync('./frontend/node_mod
 async function main() {
   const [deployer] = await ethers.getSigners();
 
-  console.log("parsedFileSdkConstant", __dirname)
 
   // get timestamp for lottery
   const currentTime = new Date();
   const currentTimeInSeconds = currentTime.getTime() / 1000;
-  const lotteryEndTime = currentTimeInSeconds + 3600 * 20;
+  const lotteryEndTime = currentTimeInSeconds + 1800;
   console.log(currentTimeInSeconds);
   // get blockc number
   const provider = new ethers.providers.JsonRpcProvider("https://rpc.testnet.fantom.network");
   const currentBlockNumber = await provider.getBlockNumber();
+
 
   // dex
   const Factory = await ethers.getContractFactory("PancakeswapFactory");
@@ -100,13 +102,13 @@ async function main() {
   tx = await syrup.mint(masterChef.address, ethers.utils.parseUnits("100000000000", 18));
   await tx.wait();
 
-  tx = await wETH.deposit({ value: ethers.utils.parseUnits("120", "ether") })
+  tx = await wETH.deposit({ value: ethers.utils.parseUnits("21", "ether") })
   await tx.wait();
   var balance = await wETH.balanceOf(deployer.address);
   console.log(ethers.utils.formatEther(String(balance)))
 
   //approve
-  tx = await wETH.approve(exchangeRouter.address, ethers.utils.parseUnits("100", 18));
+  tx = await wETH.approve(exchangeRouter.address, ethers.utils.parseUnits("20", 18));
   await tx.wait();
   tx = await cake.approve(exchangeRouter.address, ethers.utils.parseUnits("1000000", 18));
   await tx.wait();
@@ -193,15 +195,20 @@ async function main() {
 
   //RandomNumberGenerator deploy
 
-  const RandomNumberGenerator = await ethers.getContractFactory("RandomNumberGenerator");
+  const RandomNumberGenerator = await ethers.getContractFactory("MockRandomNumberGenerator");
   const randomNumberGenerator = await RandomNumberGenerator.deploy();
   await randomNumberGenerator.deployed();
+
+  tx = await randomNumberGenerator.setNextRandomResult(938437);
+  await tx.wait();
 
   //Lottery deploy
 
   const Lottery = await ethers.getContractFactory("Lottery");
   const lottery = await Lottery.deploy(cake.address, randomNumberGenerator.address);
   await lottery.deployed();
+
+
 
   //set Lottery
 
@@ -216,7 +223,15 @@ async function main() {
     2000,
     [250, 375, 625, 1250, 2500, 5000],
     2000
-  )
+  );
+
+  await tx.wait();
+
+  tx = await randomNumberGenerator.setLotteryAddress(lottery.address);
+  await tx.wait();
+
+  tx = await randomNumberGenerator.changeLatestLotteryId();
+  await tx.wait();
 
   //prediction
 
@@ -229,6 +244,9 @@ async function main() {
     aggregator.address, deployer.address, deployer.address, 1, 2, ethers.utils.parseUnits("0.01", 18,), 3600
   );
   await prediction.deployed();
+
+
+
 
 
 
