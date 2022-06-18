@@ -58,14 +58,6 @@ module.exports = {
     avalanche_test: {
       url: "https://api.avax-test.network/ext/bc/C/rpc",
       accounts: [process.env.PRIVATEKEY, process.env.PRIVATEKEY]
-    },
-    neon: {
-      url: "https://rpc.deamchain.com",
-      accounts: [process.env.PRIVATEKEY, process.env.PRIVATEKEY]
-    },
-    neon_test: {
-      url: "https://testnet-rpc.deamchain.com",
-      accounts: [process.env.PRIVATEKEY, process.env.PRIVATEKEY]
     }
   },
   etherscan: {

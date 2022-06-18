@@ -31,20 +31,20 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
     icon: 'PoolIcon',
     href: '/pools',
   },
-  {
-    label: t('Prediction (BETA)'),
-    icon: 'PredictionsIcon',
-    href: '/prediction',
-  },
-  {
-    label: t('Lottery'),
-    icon: 'TicketIcon',
-    href: '/lottery',
-    status: {
-      text: t('Win').toLocaleUpperCase(),
-      color: 'success',
-    },
-  },
+  // {
+  //   label: t('Prediction (BETA)'),
+  //   icon: 'PredictionsIcon',
+  //   href: '/prediction',
+  // },
+  // {
+  //   label: t('Lottery'),
+  //   icon: 'TicketIcon',
+  //   href: '/lottery',
+  //   status: {
+  //     text: t('Win').toLocaleUpperCase(),
+  //     color: 'success',
+  //   },
+  // },
   {
     label: t('More'),
     icon: 'MoreIcon',

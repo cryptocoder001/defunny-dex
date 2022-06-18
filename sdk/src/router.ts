@@ -37,11 +37,11 @@ export interface TradeOptionsDeadline extends Omit<TradeOptions, 'ttl'> {
 }
 
 /**
- * The parameters to use in the call to the Pancake Router to execute a trade.
+ * The parameters to use in the call to the pancake Router to execute a trade.
  */
 export interface SwapParameters {
   /**
-   * The method to call on the Pancake Router.
+   * The method to call on the pancake Router.
    */
   methodName: string
   /**
@@ -61,13 +61,13 @@ function toHex(currencyAmount: CurrencyAmount) {
 const ZERO_HEX = '0x0'
 
 /**
- * Represents the Pancake Router, and has static methods for helping execute trades.
+ * Represents the pancake Router, and has static methods for helping execute trades.
  */
 export abstract class Router {
   /**
    * Cannot be constructed.
    */
-  private constructor() {}
+  private constructor() { }
   /**
    * Produces the on-chain method name to call and the hex encoded parameters to pass as arguments for a given trade.
    * @param trade to produce call parameters for

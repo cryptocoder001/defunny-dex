@@ -4,7 +4,7 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 const { ethers } = require("hardhat");
-// const { abi } = require("../artifacts/contracts/exchange-protocol/dexfactory.sol/PancakeswapPair.json");
+// const { abi } = require("../artifacts/contracts/exchange-protocol/dexfactory.sol/pancakeswapPair.json");
 const { abi } = require("../artifacts/contracts/lottery/lottery.sol/Lottery.json");
 
 const fs = require('fs');
@@ -107,6 +107,7 @@ async function main() {
   var balance = await wETH.balanceOf(deployer.address);
   console.log(ethers.utils.formatEther(String(balance)))
 
+
   //approve
   tx = await wETH.approve(exchangeRouter.address, ethers.utils.parseUnits("20", 18));
   await tx.wait();
@@ -114,6 +115,7 @@ async function main() {
   await tx.wait();
   tx = await busd.approve(exchangeRouter.address, ethers.utils.parseUnits("1000000", 18));
   await tx.wait();
+
 
   //create LP token
   tx = await exchangeRouter.addLiquidity(
@@ -127,6 +129,9 @@ async function main() {
     "111111111111111111111"
   );
   await tx.wait();
+
+
+  console.log("storm");
 
   var cakeLp = await exchangeFactory.getPair(wETH.address, cake.address);
 

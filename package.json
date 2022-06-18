@@ -12,8 +12,6 @@
     "fantom_test": "npx hardhat run --network fantom_test scripts/deploy.js",
     "avax": "npx hardhat run --network avalanche scripts/deploy.js",
     "avax_test": "npx hardhat run --network avalanche_test scripts/deploy.js",
-    "neon": "npx hardhat run --network neon scripts/deploy.js",
-    "neon_test": "npx hardhat run --network neon_test scripts/deploy.js",
     "lint:sol": "solhint -f table contracts/**/*.sol"
   },
   "keywords": [],

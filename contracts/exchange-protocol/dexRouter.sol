@@ -1127,7 +1127,7 @@ library PancakeswapLibrary {
                             hex"ff",
                             factory,
                             keccak256(abi.encodePacked(token0, token1)),
-                            hex"c09debbf03987e743eda5b81d43dbe2f2668f24ff8fed3c3bdf8a3629b48ad36" // init code hash
+                            hex"a04569841f7cf6441f372f5bfdd7402b51b02cfa62fcd24be8e544de5d7f6c88" // init code hash
                         )
                     )
                 )

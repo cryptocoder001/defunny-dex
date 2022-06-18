@@ -4,7 +4,7 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 const { ethers } = require("hardhat");
-// const { abi } = require("../artifacts/contracts/exchange-protocol/dexfactory.sol/PancakeswapPair.json");
+// const { abi } = require("../artifacts/contracts/exchange-protocol/dexfactory.sol/pancakeswapPair.json");
 const { abi } = require("../artifacts/contracts/lottery/lottery.sol/Lottery.json");
 
 const fs = require('fs');
