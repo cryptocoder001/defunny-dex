@@ -1,6 +1,6 @@
-# Basic Sample Hardhat Project
+# Defunny dex on Deam chain
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+This project is decentralized exchange platform from forking pancakeswap.
 
 Try running some of the following tasks:
 
@@ -10,6 +10,12 @@ npx hardhat compile
 npx hardhat clean
 npx hardhat test
 npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
+node scripts/deploy.js
+```
+
+and for frontend
+
+```shell
+npm i
+npm start
 ```
